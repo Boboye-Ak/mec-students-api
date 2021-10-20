@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>STUDENT FORM</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container form">
+            <form method="post" action="/add" enctype="multipart/form-data">
+                <div class="formgroup" >
+                    <label for="lastname">Surname:</label><input type="text" class="form-control" name="lastname">
+                    <label for="firstname">Firstname:</label><input type="text" class="form-control" name="firstname">
+                    <label for="sociallinks">social links:</label><input type="text" class="form-control" name="sociallinks">
+                    <label for="email">email:</label><input type="text" class="form-control" name="email">
+                    <label for="aka">Aka</label><input type="text" class="form-control" name="aka">
+                    <label for="image">Your Picture</label><input type="file" class="form-control" name="image">
+                    <label for="dob">Your Date of Birth</label><input type="date" class="form-control" name="dob">
+
+                    <input type="submit" class="form-control btn btn-lg btn-primary">
+                </div>
+            </form>
+
+        </div>
+    </body>
+</html>
