@@ -1,4 +1,5 @@
 const mongoose=require("mongoose")
+const cloudinary=require("../utils/cloudinary")
 const path=require("path")
 const express=require("express")
 const studentModel=require("../models/student.js")
@@ -7,13 +8,11 @@ mongoose.connect(DATABASE)
 const multer=require("multer")
 
 
-const storage=multer.diskStorage({
-    destination:(req, file,callback)=>{
-        callback(null,path.resolve(__dirname,"../uploads"))
-    },
 
-    filename:function(req, file,callback){
-        callback(null,Date.now()+"-"+file.originalname)
+
+const storage=multer.diskStorage({
+    filename:(req, file, callBack)=>{
+        callBack(null, Date.now()+"-"+file.originalname)
     }
 })
 
@@ -35,9 +34,11 @@ router.get("/", (req,res)=>{
 
 router.post("/add", upload.single("image"),async (req, res)=>{
     const {firstname, lastname, aka, dob, imgsrc, sociallinks, email }=req.body
+    const result=await cloudinary.uploader.upload(req.file.path)
     const check= await studentModel.findOne({email: email})
+    
     if(check){return res.send("this email is already in the database")}
-    await studentModel.create({firstname: firstname, lastname:lastname, aka:aka, dob:dob, imgsrc:path.resolve(__dirname,"../uploads",req.file.filename), sociallinks:sociallinks, email:email})
+    await studentModel.create({firstname: firstname, lastname:lastname, aka:aka, dob:dob, imgsrc:result.secure_url, sociallinks:sociallinks, email:email})
     res.send("student record has been created")
 })
 
