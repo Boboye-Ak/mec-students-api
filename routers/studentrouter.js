@@ -6,7 +6,7 @@ const studentModel=require("../models/student.js")
 const DATABASE= "mongodb+srv://boboye:boboye@cluster0.r1cxf.mongodb.net/mecstudents?retryWrites=true&w=majority"
 mongoose.connect(DATABASE)
 const multer=require("multer")
-
+const cors=require("cors")
 
 
 
@@ -26,6 +26,7 @@ const upload=multer({
 const router=express.Router()
 router.use(express.json())
 router.use(express.urlencoded({extended:false}))
+router.use(cors())
 
 
 router.get("/", (req,res)=>{
