@@ -3,6 +3,8 @@ const router= require("./routers/studentrouter")
 const express=require("express")
 const DATABASE= "mongodb+srv://boboye:boboye@cluster0.r1cxf.mongodb.net/mecstudents?retryWrites=true&w=majority"
 const studentModel=require("./models/student.js")
+const cors=require("cors")
+app.use(cors())
 
 
 const app=express()
