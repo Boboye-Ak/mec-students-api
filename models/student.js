@@ -1,6 +1,7 @@
 const mongoose=require("mongoose")
 
 const studentSchema=mongoose.Schema({
+    id:{type:Number, required:true},
     lastname:{type: String, required:true},
     firstname:{type: String, required:true},
     aka:{type: String, required:true},

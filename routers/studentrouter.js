@@ -29,17 +29,21 @@ router.use(express.urlencoded({extended:false}))
 router.use(cors())
 
 
+//Get home page
 router.get("/", (req,res)=>{
     res.sendFile(path.resolve(__dirname, "../static/form.html"))
 })
 
+//Uploading form data
 router.post("/add", upload.single("image"),async (req, res)=>{
+    const data= await studentModel.find({})
+    let id=data.length+1 
     const {firstname, lastname, aka, dob, imgsrc, sociallinks, email }=req.body
     const result=await cloudinary.uploader.upload(req.file.path)
     const check= await studentModel.findOne({email: email})
     
     if(check){return res.send("this email is already in the database")}
-    await studentModel.create({firstname: firstname, lastname:lastname, aka:aka, dob:dob, imgsrc:result.secure_url, sociallinks:sociallinks, email:email})
+    await studentModel.create({id:id, firstname: firstname, lastname:lastname, aka:aka, dob:dob, imgsrc:result.secure_url, sociallinks:sociallinks, email:email})
     res.send("student record has been created")
 })
 
@@ -67,6 +71,26 @@ router.get("/data/query", async(req, res)=>{
    }
 
    res.json(data)
+})
+
+//Get delete all page
+router.get("/delete", (req,res)=>{
+    res.sendFile(path.resolve(__dirname, "../static/deleteall.html"))
+})
+
+//Delete all data
+
+router.post("/deleteall", async (req, res)=>{
+    await studentModel.deleteMany({})
+    res.send("All data deleted")
+})
+
+//Get by id
+
+router.get("/data/:id", async(req,res)=>{
+    let data=await studentModel.findOne({id:req.params.id})
+    if (!data){return res.send("No student has this id")}
+    res.json(data)
 })
 
 
