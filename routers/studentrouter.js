@@ -44,7 +44,7 @@ router.post("/add", upload.single("image"),async (req, res)=>{
     
     if(check){return res.send("this email is already in the database")}
     await studentModel.create({id:id, firstname: firstname, lastname:lastname, aka:aka, dob:dob, imgsrc:result.secure_url, sociallinks:sociallinks, email:email})
-    res.send("student record has been created")
+    res.json({success:true, message: "Student Record Has Been Created"})
 })
 
 
@@ -82,7 +82,7 @@ router.get("/delete", (req,res)=>{
 
 router.post("/deleteall", async (req, res)=>{
     await studentModel.deleteMany({})
-    res.send("All data deleted")
+    res.json({success:true, message: "All Data Deleted"})
 })
 
 //Get by id
