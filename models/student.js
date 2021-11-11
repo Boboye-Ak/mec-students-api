@@ -1,4 +1,5 @@
 const mongoose=require("mongoose")
+const {isEmail}=require("validator")
 
 const studentSchema=mongoose.Schema({
     id:{type:Number, required:true},
@@ -8,7 +9,7 @@ const studentSchema=mongoose.Schema({
     dob:{type:Date, required:true},
     imgsrc:{type:String, required:false},
     sociallinks:{type:String, required:true},
-    email:{type:String, required:true}
+    email:{type:String, required:true, lowercase:true, unique:true, validate:[isEmail,"Please enter a valid email"]}
 
 
 })

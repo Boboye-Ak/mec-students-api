@@ -14,33 +14,85 @@
 </head>
 
 <body>
-    <form method="post" action="/add" enctype="multipart/form-data" class="form">
+    <form class="form">
         <h1>Mater Ecclessias College</h1>
         <!-- <div class="formgroup"> -->
         <div>
-            <label for="lastname">Surname:</label><input type="text" class="form-control" name="lastname" />
+            <label for="lastname">Surname:</label><input type="text" class="form-control" name="lastname" id="lastname" />
         </div>
         <div>
-            <label for="firstname">Firstname:</label><input type="text" class="form-control" name="firstname" />
+            <label for="firstname">Firstname:</label><input type="text" class="form-control" name="firstname" id="firstname"/>
         </div>
         <div>
-            <label for="sociallinks">social links:</label><input type="text" class="form-control" name="sociallinks" />
+            <label for="sociallinks">social links:</label><input type="text" class="form-control" name="sociallinks" id="sociallinks" />
         </div>
         <div>
-            <label for="email">email:</label><input type="text" class="form-control" name="email" />
+            <label for="email">email:</label><input type="text" class="form-control" name="email" id="email" />
         </div>
         <div>
-            <label for="aka">A.K.A</label><input type="text" class="form-control" name="aka" />
+            <label for="aka">A.K.A</label><input type="text" class="form-control" name="aka" id="aka" />
         </div>
         <div>
-            <label for="image">Your Picture</label><input type="file" class="form-control" name="image" />
+            <label for="image">Your Picture</label><input type="file" class="form-control" name="image" id="image" accept="image/x-png,image/gif,image/jpeg" />
         </div>
         <div>
-            <label for="dob">Your Date of Birth</label><input type="date" class="form-control" name="dob" />
+            <label for="dob">Your Date of Birth</label><input type="date" class="form-control" name="dob" id="dob" />
         </div>
         <input type="submit" class="form-control btn btn-lg btn-primary" />
+        <p class="error"></p>
+        <p class="success"></p>
         <!-- </div> -->
     </form>
+
+    <script>
+        let lastnametag=document.querySelector("#lastname")
+        let firstnametag=document.querySelector("#firstname")
+        let sociallinkstag=document.querySelector("#sociallinks")
+        let emailtag=document.querySelector("#email")
+        let akatag=document.querySelector("#aka")
+        let imagetag=document.querySelector("#image")
+        let dobtag=document.querySelector("#dob")
+        let form=document.querySelector("form")
+        let error=document.querySelector(".error")
+        let success=document.querySelector(".success")
+
+        form.addEventListener("submit", async(e)=>{
+            e.preventDefault()
+            let lastname=lastnametag.value
+            let firstname=firstnametag.value
+            let sociallinks=sociallinkstag.value
+            let email=emailtag.value
+            let aka=akatag.value
+            let image=imagetag.files[0]
+            let dob=dobtag.value
+            let formData=new FormData()
+            formData.append("lastname", lastname)
+            formData.append("firstname", firstname)
+            formData.append("sociallinks", sociallinks)
+            formData.append("email", email)
+            formData.append("aka", aka)
+            formData.append("image", image)
+            formData.append("dob", dob)
+            if (lastname&&firstname&&sociallinks&&email&&aka&&image&&dob){
+                const res=await fetch("/add", {
+                    method:"POST",
+                    body:formData
+                
+                })
+                const data=await res.json()
+                if (data.success){
+                    success.textContent="Record has been created successfully"
+                    error.textContent = ""
+                }
+
+            }
+            else {
+                error.textContent="Please Fill all fields correctly"
+            }
+            
+        })
+
+    </script>
 </body>
 
 </html>
