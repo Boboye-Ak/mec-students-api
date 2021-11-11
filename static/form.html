@@ -84,6 +84,11 @@
                     success.textContent="Record has been created successfully"
                     error.textContent = ""
                 }
+                if (data.duplicate){
+                    success.textContent = ""
+                    error.textContent = "This email is already in the database"
+
+                }
 
             }
             else {

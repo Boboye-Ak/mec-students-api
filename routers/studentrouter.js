@@ -42,7 +42,7 @@ router.post("/add", upload.single("image"),async (req, res)=>{
     const result=await cloudinary.uploader.upload(req.file.path)
     const check= await studentModel.findOne({email: email})
     
-    if(check){return res.send("this email is already in the database")}
+    if(check){return res.json({duplicate:true})}
     await studentModel.create({id:id, firstname: firstname, lastname:lastname, aka:aka, dob:dob, imgsrc:result.secure_url, sociallinks:sociallinks, email:email})
     res.json({success:true, message: "Student Record Has Been Created"})
 })
